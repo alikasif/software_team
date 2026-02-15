@@ -1,60 +1,214 @@
-[
-  {
-    "id": 1,
-    "status": "done",
-    "title": "Design database schema and migrations",
-    "assigned_to": "database"
-  },
-  {
-    "id": 2,
-    "status": "not-started",
-    "title": "Implement backend API and business logic",
-    "assigned_to": "python-coder",
-    "blocked_by": [1]
-  },
-  {
-    "id": 3,
-    "status": "not-started",
-    "title": "Generate OpenAPI contract for API",
-    "assigned_to": "python-coder",
-    "blocked_by": [1]
-  },
-  {
-    "id": 4,
-    "status": "not-started",
-    "title": "Implement frontend UI and consume API contract",
-    "assigned_to": "frontend",
-    "blocked_by": [3]
-  },
-  {
-    "id": 5,
-    "status": "not-started",
-    "title": "Write API, user, and dev documentation",
-    "assigned_to": "documentation",
-    "blocked_by": [2,3,4]
-  },
-  {
-    "id": 6,
-    "status": "not-started",
-    "title": "Write and run automated and concurrency tests",
-    "assigned_to": "python-test",
-    "blocked_by": [2,3]
-  },
-  {
-    "id": 7,
-    "status": "done",
-    "title": "Review backend, database, and frontend code",
-    "assigned_to": ["backend-reviewer", "database-reviewer", "frontend-reviewer"],
-    "blocked_by": [2,1,4],
-    "review_notes": {
-      "database-reviewer": "No schema or migration scripts exist in database/schema.sql or migrations/. Review complete: nothing to review yet."
+{
+  "project": "splitwise-mvp",
+  "version": 1,
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Scaffold project structure",
+      "agent": "project-structure-subagent",
+      "status": "done",
+      "blocked_by": [],
+      "outputs": [
+        "shared/project_structure.json"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Design schema and migrations",
+      "agent": "database",
+      "status": "todo",
+      "blocked_by": [
+        "T1"
+      ],
+      "outputs": [
+        "db schema",
+        "migration files"
+      ]
+    },
+    {
+      "id": "T3",
+      "title": "Implement auth and user profile APIs",
+      "agent": "python-coder",
+      "status": "todo",
+      "blocked_by": [
+        "T2"
+      ],
+      "outputs": [
+        "auth endpoints",
+        "user profile endpoints"
+      ]
+    },
+    {
+      "id": "T4",
+      "title": "Implement groups and membership APIs",
+      "agent": "python-coder",
+      "status": "todo",
+      "blocked_by": [
+        "T3"
+      ],
+      "outputs": [
+        "group endpoints",
+        "membership endpoints"
+      ]
+    },
+    {
+      "id": "T5",
+      "title": "Build split engine (equal/percentage/exact)",
+      "agent": "python-coder",
+      "status": "todo",
+      "blocked_by": [
+        "T2"
+      ],
+      "outputs": [
+        "split service",
+        "validation rules"
+      ]
+    },
+    {
+      "id": "T6",
+      "title": "Implement expense creation with ledger + idempotency",
+      "agent": "python-coder",
+      "status": "todo",
+      "blocked_by": [
+        "T4",
+        "T5"
+      ],
+      "outputs": [
+        "expense create endpoint",
+        "ledger write flow",
+        "idempotency handling",
+        "shared/api/openapi.yaml"
+      ]
+    },
+    {
+      "id": "T7",
+      "title": "Implement balances and settle-up APIs",
+      "agent": "python-coder",
+      "status": "todo",
+      "blocked_by": [
+        "T6"
+      ],
+      "outputs": [
+        "balances endpoint",
+        "settle-up endpoint",
+        "shared/api/openapi.yaml"
+      ]
+    },
+    {
+      "id": "T8",
+      "title": "Implement history endpoints",
+      "agent": "python-coder",
+      "status": "todo",
+      "blocked_by": [
+        "T6",
+        "T7"
+      ],
+      "outputs": [
+        "group expense history",
+        "user transaction history"
+      ]
+    },
+    {
+      "id": "T9",
+      "title": "Database correctness and performance tests",
+      "agent": "database-test",
+      "status": "todo",
+      "blocked_by": [
+        "T7"
+      ],
+      "outputs": [
+        "transaction/locking tests",
+        "index/query validation"
+      ]
+    },
+    {
+      "id": "T10",
+      "title": "Backend unit/integration/concurrency tests",
+      "agent": "python-test",
+      "status": "todo",
+      "blocked_by": [
+        "T8"
+      ],
+      "outputs": [
+        "test suite for API and split logic"
+      ]
+    },
+    {
+      "id": "T11",
+      "title": "Documentation and runbook",
+      "agent": "documentation",
+      "status": "done",
+      "blocked_by": [
+        "T10"
+      ],
+      "outputs": [
+        "README updates",
+        "API usage docs",
+        "consistency/concurrency notes"
+      ]
+    },
+    {
+      "id": "R1",
+      "title": "Backend review",
+      "agent": "backend-reviewer",
+      "status": "todo",
+      "blocked_by": [
+        "T8"
+      ],
+      "watch_tasks": [
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8"
+      ]
+    },
+    {
+      "id": "R2",
+      "title": "Database review",
+      "agent": "database-reviewer",
+      "status": "blocked",
+      "note": "2026-02-15: Blocked pending T2 and T9 completion. No concrete DB schema tables/models beyond Base, no Alembic revisions in db/migrations/versions (only .gitkeep), Alembic env target_metadata is None, and tests/concurrency|integration|unit contain only .gitkeep. Remediate by implementing schema models with PK/FK/UNIQUE/CHECK constraints and required indexes, wiring Alembic metadata + creating/reviewing initial revisions, and adding DB correctness/performance tests (transactions/locking/idempotency/index-query validation).",
+      "blocked_by": [
+        "T9"
+      ],
+      "watch_tasks": [
+        "T2",
+        "T9"
+      ]
+    },
+    {
+      "id": "R3",
+      "title": "Architecture review",
+      "agent": "architecture-reviewer",
+      "status": "todo",
+      "blocked_by": [
+        "T8"
+      ],
+      "watch_tasks": [
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8"
+      ]
+    },
+    {
+      "id": "G1",
+      "title": "Periodic GitHub sync",
+      "agent": "github-subagent",
+      "status": "todo",
+      "note": "2026-02-15: fetch/push to origin succeeded; pull --rebase blocked by unstaged local changes in working tree. Full sync not completed.",
+      "blocked_by": [
+        "T1"
+      ],
+      "outputs": [
+        "periodic pushes",
+        "sync status"
+      ]
     }
-  },
-  {
-    "id": 8,
-    "status": "not-started",
-    "title": "Push code to GitHub periodically",
-    "assigned_to": "github",
-    "blocked_by": []
-  }
-]
+  ]
+}
