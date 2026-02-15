@@ -1,1 +1,189 @@
-# OpenAPI contract placeholder
+openapi: 3.0.3
+info:
+  title: Splitwise MVP Backend API
+  version: 0.1.0
+  description: API contract for implemented MVP modules.
+servers:
+  - url: http://localhost:8000/api/v1
+paths:
+  /groups:
+    post:
+      tags: [groups]
+      summary: Create group
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreateRequest'
+      responses:
+        '201':
+          description: Group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+        '401':
+          description: Unauthorized
+    get:
+      tags: [groups]
+      summary: List user groups
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Groups for current user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupResponse'
+        '401':
+          description: Unauthorized
+  /groups/{group_id}/members:
+    post:
+      tags: [groups]
+      summary: Add group member
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: group_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupMemberAddRequest'
+      responses:
+        '201':
+          description: Member added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Requesting user is not a group member
+        '404':
+          description: Group or user not found
+        '409':
+          description: User already a member
+    get:
+      tags: [groups]
+      summary: List group members
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: group_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Group member list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupMemberResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Requesting user is not a group member
+        '404':
+          description: Group not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    GroupCreateRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+    GroupResponse:
+      type: object
+      required: [id, name, created_by_user_id, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_by_user_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+    GroupMemberAddRequest:
+      type: object
+      required: [user_id]
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [owner, member]
+          default: member
+    GroupMemberResponse:
+      type: object
+      required: [group_id, user_id, role, joined_at]
+      properties:
+        group_id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [owner, member]
+        joined_at:
+          type: string
+          format: date-time
+    SplitMethod:
+      type: string
+      enum: [equal, percentage, exact]
+    PercentageParticipant:
+      type: object
+      required: [user_id, percentage]
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        percentage:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+    ExactParticipant:
+      type: object
+      required: [user_id, amount]
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: float
+          minimum: 0.01
