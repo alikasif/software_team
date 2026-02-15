@@ -16,7 +16,7 @@
       "id": "T2",
       "title": "Design schema and migrations",
       "agent": "database",
-      "status": "todo",
+      "status": "done",
       "blocked_by": [
         "T1"
       ],
@@ -129,6 +129,7 @@
       "blocked_by": [
         "T8"
       ],
+      "notes": "Unit/integration/concurrency test suite scaffold added with xfail expectations; pending implementation of split, expenses, balances, settlements, and history logic/endpoints.",
       "outputs": [
         "test suite for API and split logic"
       ]
