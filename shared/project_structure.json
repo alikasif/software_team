@@ -1,0 +1,9 @@
+{
+    "root": "custom_log_framework",
+    "files": [
+        "custom_logger/__init__.py",
+        "tests/__init__.py",
+        "README.md",
+        "setup.py"
+    ]
+}
