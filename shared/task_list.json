@@ -1,91 +1,60 @@
-{
-  "tasks": [
-    {
-      "id": "STRUCT-001",
-      "title": "Initialize project structure",
-      "assignee": "project-structure-subagent",
-      "status": "not-started",
-      "description": "Create directory structure: src/rate_limiter/, tests/, docs/ with __init__.py files"
-    },
-    {
-      "id": "PYTHON-001",
-      "title": "Implement TokenBucket core class",
-      "assignee": "python-coder",
-      "status": "not-started",
-      "description": "Create src/rate_limiter/token_bucket.py with TokenBucket class: __init__, allow(), wait(), refill logic",
-      "depends_on": ["STRUCT-001"]
-    },
-    {
-      "id": "PYTHON-002",
-      "title": "Create custom exceptions",
-      "assignee": "python-coder",
-      "status": "not-started",
-      "description": "Create src/rate_limiter/exceptions.py for RateLimitExceeded and related exceptions",
-      "depends_on": ["STRUCT-001"]
-    },
-    {
-      "id": "PYTHON-003",
-      "title": "Add module initialization",
-      "assignee": "python-coder",
-      "status": "not-started",
-      "description": "Create src/rate_limiter/__init__.py with public exports",
-      "depends_on": ["PYTHON-001", "PYTHON-002"]
-    },
-    {
-      "id": "TEST-001",
-      "title": "Unit tests for token bucket",
-      "assignee": "testing",
-      "status": "not-started",
-      "description": "Create tests/test_token_bucket.py with unit tests for TokenBucket logic",
-      "depends_on": ["PYTHON-001"]
-    },
-    {
-      "id": "TEST-002",
-      "title": "Concurrency tests",
-      "assignee": "testing",
-      "status": "not-started",
-      "description": "Create tests/test_concurrency.py for thread safety verification",
-      "depends_on": ["PYTHON-001"]
-    },
-    {
-      "id": "TEST-003",
-      "title": "Edge case and benchmark tests",
-      "assignee": "testing",
-      "status": "not-started",
-      "description": "Create tests/test_edge_cases.py and performance benchmarks",
-      "depends_on": ["PYTHON-001"]
-    },
-    {
-      "id": "REVIEW-001",
-      "title": "Review Python implementation",
-      "assignee": "backend-reviewer",
-      "status": "not-started",
-      "description": "Review Python Coder tasks (PYTHON-001, PYTHON-002, PYTHON-003) for correctness, thread safety, and code quality",
-      "depends_on": ["PYTHON-003"]
-    },
-    {
-      "id": "REVIEW-002",
-      "title": "Review test coverage",
-      "assignee": "backend-reviewer",
-      "status": "not-started",
-      "description": "Review Testing Agent tasks (TEST-001, TEST-002, TEST-003) for coverage and effectiveness",
-      "depends_on": ["TEST-003"]
-    },
-    {
-      "id": "DOC-001",
-      "title": "Create README and API documentation",
-      "assignee": "documentation",
-      "status": "not-started",
-      "description": "Create README.md with algorithm explanation, API docs, and usage examples",
-      "depends_on": ["PYTHON-003"]
-    },
-    {
-      "id": "GIT-001",
-      "title": "Initial commit and push",
-      "assignee": "github-subagent",
-      "status": "not-started",
-      "description": "Commit initial project structure and push to repository",
-      "depends_on": ["STRUCT-001"]
+[
+  {
+    "id": 1,
+    "status": "done",
+    "title": "Design database schema and migrations",
+    "assigned_to": "database"
+  },
+  {
+    "id": 2,
+    "status": "not-started",
+    "title": "Implement backend API and business logic",
+    "assigned_to": "python-coder",
+    "blocked_by": [1]
+  },
+  {
+    "id": 3,
+    "status": "not-started",
+    "title": "Generate OpenAPI contract for API",
+    "assigned_to": "python-coder",
+    "blocked_by": [1]
+  },
+  {
+    "id": 4,
+    "status": "not-started",
+    "title": "Implement frontend UI and consume API contract",
+    "assigned_to": "frontend",
+    "blocked_by": [3]
+  },
+  {
+    "id": 5,
+    "status": "not-started",
+    "title": "Write API, user, and dev documentation",
+    "assigned_to": "documentation",
+    "blocked_by": [2,3,4]
+  },
+  {
+    "id": 6,
+    "status": "not-started",
+    "title": "Write and run automated and concurrency tests",
+    "assigned_to": "python-test",
+    "blocked_by": [2,3]
+  },
+  {
+    "id": 7,
+    "status": "done",
+    "title": "Review backend, database, and frontend code",
+    "assigned_to": ["backend-reviewer", "database-reviewer", "frontend-reviewer"],
+    "blocked_by": [2,1,4],
+    "review_notes": {
+      "database-reviewer": "No schema or migration scripts exist in database/schema.sql or migrations/. Review complete: nothing to review yet."
     }
-  ]
-}
+  },
+  {
+    "id": 8,
+    "status": "not-started",
+    "title": "Push code to GitHub periodically",
+    "assigned_to": "github",
+    "blocked_by": []
+  }
+]
