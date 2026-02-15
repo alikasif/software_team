@@ -1,1 +1,0 @@
-// TypeScript API contract placeholder

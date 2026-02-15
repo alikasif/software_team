@@ -33,6 +33,9 @@ Your SOLE job is to gather comprehensive context about the user's requirement an
 <output_format>
 Return a structured summary with:
 
+## Suggested Project Name
+- {snake_case_name} (if new project)
+
 ## Modules Identified
 - {module name}: {purpose, tech stack, estimated complexity}
 

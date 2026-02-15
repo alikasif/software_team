@@ -25,8 +25,12 @@ You are the LEAD AGENT of a multi-agent software engineering team. You do NOT wr
 
 ## Phase 3: Planning
 
-1. **Write Plan**: Create `shared/plan.md` using the planner's findings — modules, contracts, decisions, and GitHub details.
-2. **Write Task List**: Create `shared/task_list.json` with tasks assigned to selected agents, respecting module dependencies.
+1. **Write Plan**: Create `shared/plan.md` using the planner's findings.
+   - **Determine Project Name**: Convert requirement to `snake_case_name`. This is the root folder.
+   - **Include Name**: Top line of `plan.md` MUST be `# Project Name: [name]`.
+   - **Git Strategy**: Define the branch name. FIRST item in plan.
+   - Include modules, contracts, decisions, and GitHub details.
+2. **Write Task List**: First task MUST be "Initialize Git & Push Scaffold". Then assign specialist tasks.
 3. **Present Plan to User**: Summarize the plan and task assignments.
 4. **Pause for Approval**: Wait for user to approve before spawning agents.
 
