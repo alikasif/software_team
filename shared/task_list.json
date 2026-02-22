@@ -1,0 +1,51 @@
+[
+  {
+    "id": "task-1",
+    "title": "Initialize Git & Push Scaffold",
+    "agent": "project-structure",
+    "status": "done",
+    "blocked_by": []
+  },
+  {
+    "id": "task-2",
+    "title": "Define API Contracts (OpenAPI)",
+    "agent": "python-coder",
+    "status": "todo",
+    "blocked_by": ["task-1"]
+  },
+  {
+    "id": "task-3",
+    "title": "Implement Backend & Agent Core",
+    "agent": "python-coder",
+    "status": "todo",
+    "blocked_by": ["task-2"]
+  },
+  {
+    "id": "task-4",
+    "title": "Implement Frontend UI",
+    "agent": "frontend",
+    "status": "todo",
+    "blocked_by": ["task-2"]
+  },
+  {
+    "id": "task-5",
+    "title": "Write Backend Tests",
+    "agent": "python-test",
+    "status": "todo",
+    "blocked_by": ["task-3"]
+  },
+  {
+    "id": "task-6",
+    "title": "Write Frontend Tests",
+    "agent": "frontend-test",
+    "status": "todo",
+    "blocked_by": ["task-4"]
+  },
+  {
+    "id": "task-7",
+    "title": "Write Documentation",
+    "agent": "documentation",
+    "status": "todo",
+    "blocked_by": ["task-3", "task-4"]
+  }
+]
